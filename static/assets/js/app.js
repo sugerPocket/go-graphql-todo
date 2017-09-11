@@ -1,76 +1,58 @@
-var updateTodo = function(id, isDone){
-  $.ajax({
-    url: '/graphql?query=mutation+_{update(id:"' + id + '",done:' + isDone + '){id,text,done}}'
-  }).done(function(data) {
-    console.log(data);
-    var dataParsed = JSON.parse(data);
-    var updatedTodo = dataParsed.data.updateTodo;
-    if (updatedTodo.done) {
-      $('#' + updatedTodo.id).parent().parent().parent().addClass('todo-done');
-    } else {
-      $('#' + updatedTodo.id).parent().parent().parent().removeClass('todo-done');
-    } 
-  });
-};
+(function() {
+  "use strict";
 
-var handleTodoList = function(object) {
-  var todos = object;
+  // classes
 
-  if (!todos.length) {
-    $('.todo-list-container').append('<p>There are no tasks for you today</p>');
-    return
-  } else {
-    $('.todo-list-container p').remove();
-  }
+  var todoItem = React.createClass({
+    propTypes: {
+      id: React.propTypes.string,
+      ddl: React.propTypes.date,
+      title: React.propTypes.string,
+      content: React.propTypes.string
+    },
+    defaultProps: {
+      id: '',
+      ddl: new Date(Date.now()),
+      title: '',
+      content: ''
+    },
 
-  $.each(todos, function(i, v) {
-    var todoTemplate = $('#todoItemTemplate').html();
-    var todo = todoTemplate.replace('{{todo-id}}', v.id);
-    todo = todo.replace('{{todo-text}}', v.text);
-    todo = todo.replace('{{todo-checked}}', (v.done ? ' checked="checked"' : ''));
-    todo = todo.replace('{{todo-done}}', (v.done ? ' todo-done' : ''));
-
-    $('.todo-list-container').append(todo);
-    $('#' + v.id).click(function(){
-      var id = $(this).prop('id');
-      var isDone = $(this).prop('checked');
-      updateTodo(id, isDone);
-    });
-  });
-};
-
-var loadTodos = function() {
-  $.ajax({
-    url: "/graphql?query={list{id,text,done}}"
-  }).done(function(data) {
-    console.log(data);
-    var dataParsed = JSON.parse(data);
-    handleTodoList(dataParsed.data.todoList);
-  });
-};
-
-var addTodo = function(todoText) {
-  if (!todoText || todoText === "") {
-    alert('Please specify a task');
-    return;
-  }
-
-  $.ajax({
-    url: '/graphql?query=mutation+_{create(text:"' + todoText + '"){id,text,done}}'
-  }).done(function(data) {
-    console.log(data);
-    var dataParsed = JSON.parse(data);
-    var todoList = [dataParsed.data.createTodo];
-    handleTodoList(todoList);
-  });
-};
-
-$(document).ready(function() {
-  $('.todo-add-form').submit(function(e){
-    e.preventDefault();
-    addTodo($('.todo-add-form #task').val());
-    $('.todo-add-form #task').val('');
+    // 设置初始状态
+    getInitialState: function() {
+      return {
+        expanding: false
+      };
+    },
+    render: function() {
+      var title = this.props.title;
+      var content = this.props.content;
+      var expanding = this.state.expanding;
+      return React.createElement('li', {
+          className: expanding ? "todo-item expanding" : "todo-item"
+        },
+        React.createElement('h3', null, title || ""),
+        React.createElement('span', null, content || "")
+      );
+    }
   });
 
-  loadTodos();
-});
+  var dailyTodoList = React.createClass({
+    propTypes: {
+      date: React.propTypes.date,
+      list: React.propTypes.array
+    },
+    defaultProps: {
+      date: new Date(Date.now()),
+      list: []
+    },
+    render() {
+      var list = this.props.list.map(function (todo) {
+        return React.createElement(todoItem, todo);
+      });
+      return React.createElement("div", { className: 'daily-list' },
+        React.createElement("span", { className: 'day' }, this.props.date),
+        React.createElement.apply(React, ["ul", { className: 'list' }].concat(list))
+      )
+    }
+  });
+})();
