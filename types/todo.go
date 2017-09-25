@@ -9,11 +9,17 @@ var Todo = graphql.NewObject(graphql.ObjectConfig{
 		"id": &graphql.Field{
 			Type: graphql.String,
 		},
-		"text": &graphql.Field{
+		"title": &graphql.Field{
 			Type: graphql.String,
 		},
-		"done": &graphql.Field{
-			Type: graphql.Boolean,
+		"content": &graphql.Field{
+			Type: graphql.String,
+		},
+		"start": &graphql.Field{
+			Type: graphql.DateTime,
+		},
+		"end": &graphql.Field{
+			Type: graphql.DateTime,
 		},
 	},
 })

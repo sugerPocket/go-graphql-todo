@@ -19,6 +19,7 @@ func executeQuery(query string, schema graphql.Schema) *graphql.Result {
 func InitServer() {
 	http.HandleFunc("/graphql", func(w http.ResponseWriter, r *http.Request) {
 		result := executeQuery(r.URL.Query().Get("query"), schema)
+		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(result)
 	})
 	// Serve static files

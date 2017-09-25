@@ -1,9 +1,146 @@
 body {
-    background-color: #cccccc;
-    color: #333333;
-    font-family: sans-serif;
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+}
+.topbar > .title {
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
+}
+.topbar > .title > .add-a-todo {
+  font-weight: bold;
+  font-size: 18px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: #ffb6b3;
 }
 
-.todo-done {
-    opacity: 0.5;
+.daily-list {
+  margin-bottom: 10px;
+}
+
+.daily-list > .day {
+  color: #ffb6b3;
+  font-size: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.daily-list.expired > .day {
+  color: #E3dee4;
+}
+
+.daily-list > ul.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.todo-item > span {
+  display: none;
+}
+
+.todo-item {
+  border-radius: 5px;
+  box-shadow: 0 0 60px #fafafa;
+  padding: 10px 15px;
+}
+
+.daily-list > ul.list > li.todo-item {
+  color: #ffffff;
+  background-image: linear-gradient(to right, #e0bdc9, #ffb6b3, #ffbfa7);
+  margin-bottom: 15px;
+}
+
+.daily-list > ul.list > li.todo-item > .title {
+  margin: 0;
+  line-height: 16px;
+  padding-right: 70px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+
+.daily-list.expired > ul.list > li.todo-item {
+  color: #E3dee4;
+  background-image: none;
+}
+
+.daily-list.expired > ul.list > li.todo-item {
+  color: #eee;
+  background-image: none;
+}
+
+.daily-list > ul.list > li.todo-item > .title > .circle {
+  border-radius: 50%;
+  width: 0.7em;
+  height: 0.7em;
+  border: 0.06em solid #ffffff;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.daily-list > ul.list > li.todo-item > .title > span {
+  vertical-align: middle;
+  font-size: 1rem;
+}
+
+.daily-list.expired > ul.list > li.todo-item > .title > .circle {
+  border-color: #eee;
+  background-color: #eee;
+}
+
+.daily-list > ul.list > li.todo-item > .title > .delete,
+.daily-list > ul.list > li.todo-item > .title > .edit {
+  margin-left: 5px;
+  position: absolute;
+  bottom: -2px;
+  vertical-align: middle;
+}
+
+.daily-list > ul.list > li.todo-item > .title > .delete {
+  right: 0px;
+}
+.daily-list > ul.list > li.todo-item > .title > .edit {
+  right: 26px;
+  clip-path: inset(0 0 0 4.2em);
+}
+
+.todo-editor .time > .start,
+.todo-editor .time > .end {
+  display: inline-block;
+  padding: 0;
+}
+
+.todo-editor .time > .end > .rdtPicker {
+  right: 0;
+}
+
+.todo-editor .time > label {
+  text-align: center;
+}
+
+.todo-editor .content > textarea {
+  height: 200px;
+  resize: none;
+}
+
+.todo-editor .submit {
+  background-image: linear-gradient(to right, #e0bdc9, #ffb6b3, #ffbfa7);
+  background-color: transparent;
+  border: none;
+}
+
+.todo-editor .submit:focus {
+  box-shadow: 0 0 0 3px rgba(255, 182, 179, .5);
+}
+
+.todo-editor textarea,
+.todo-editor input {
+  border: none
 }
